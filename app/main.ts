@@ -1,5 +1,6 @@
 import * as net from 'net';
 
+import fs from 'node:fs';
 import process from 'node:process';
 
 const server: net.Server = net.createServer((socket: net.socket) => {
@@ -18,8 +19,16 @@ const server: net.Server = net.createServer((socket: net.socket) => {
             } else if (pathContents[0] === 'user-agent') {
                 let userAgent: string[] = request.at(-1).trim();
                 socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}`);
-            }
-            else {
+            } else if (pathContents[0] === 'files') {
+                let directory = process.argv[3];
+                fs.readFile(directory, (err, data) => {
+                    console.log(typeof err, typeof data)
+                    if (err) {
+                        socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
+                    }
+                    socket.write(`HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${data.length}\r\n\r\n${data}`);
+                })
+            } else {
                 socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
             }
         }
