@@ -36,8 +36,8 @@ const server: net.Server = net.createServer((socket: net.socket) => {
             }
         }
         if (method === 'post') {
-            console.log('im in here')
             let pathContents: string[] = path.split('/');
+            console.log(pathContents)
             if (pathContents[0] === 'files') {
                 let directory: string = process.argv[3];
                 let fileName: string = pathContents[1]
