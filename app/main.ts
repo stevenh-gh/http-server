@@ -21,8 +21,8 @@ const server: net.Server = net.createServer((socket: net.socket) => {
             } else if (pathContents[0] === 'files') {
                 let directory: string = process.argv[3];
                 let fileName: string = pathContents[1]
-                let file = fs.readFile(directory + fileName, 'utf8', (err, data) => {
-                    console.log(typeof data);
+                let file = fs.readFile(directory + fileName, 'utf8', (err, data: string) => {
+                    console.log(typeof err);
                 })
             } else {
                 socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
