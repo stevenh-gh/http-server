@@ -4,18 +4,17 @@ const server: net.Server = net.createServer((socket: net.socket) => {
     // socket.write('HTTP/1.1 200 OK\r\n\r\n');
     // socket.end();
     socket.on('data', (buffer: net.Buffer | string) => {
-        let request = buffer.toString().split(' ');
-        let path = request[1];
+        let request: string[] = buffer.toString().split(' ');
+        let path: string = request[1];
         if (path === '/') {
             socket.write('HTTP/1.1 200 OK\r\n\r\n');
         } else {
-            let pathContents = path.split('/');
+            let pathContents: string[] = path.split('/');
             pathContents.shift();
             if (pathContents[0] === 'echo') {
                 socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${pathContents[1].length}\r\n\r\n${pathContents[1]}`);
             } else if (pathContents[0] === 'user-agent') {
-                let userAgent = request.at(-1)
-                console.log(userAgent.trim(), userAgent.length)
+                let userAgent: string = request.at(-1).trim();
                 socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}`);
             }
             else {
