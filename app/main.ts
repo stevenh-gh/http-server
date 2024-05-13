@@ -25,7 +25,7 @@ const server: net.Server = net.createServer((socket: net.socket) => {
                     if (err) {
                         socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
                     }
-                    socket.write(`HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\nContent-Length: ${data.length}\r\n\r\n${data}`);
+                    socket.write(`HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${data.length}\r\n\r\n${data}`);
                 })
             } else {
                 socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
