@@ -7,6 +7,7 @@ const server: net.Server = net.createServer((socket: net.socket) => {
     // socket.end();
     socket.on('data', (buffer: net.Buffer | string) => {
         let request: string[] = buffer.toString().split(' ');
+        console.log(request)
         let method: string = request[0].toLowerCase();
         let path: string = request[1];
         console.log(path)
@@ -36,6 +37,12 @@ const server: net.Server = net.createServer((socket: net.socket) => {
             }
         }
         if (method === 'post') {
+            let pathContents: string[] = path.split('/');
+            if (pathContents[0] === 'files') {
+                let directory: string = process.argv[3];
+                let fileName: string = pathContents[1]
+                // fs.writeFile(directory+fileName, x)
+            }
         }
     })
 });
