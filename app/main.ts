@@ -9,7 +9,11 @@ const server: net.Server = net.createServer((socket: net.socket) => {
         if (path === '/') {
             socket.write('HTTP/1.1 200 OK\r\n\r\n');
         } else {
-            console.log(path.split('/'))
+            let pathContents = path.split('/');
+            pathContents.unshift();
+            if (pathContents[0] === 'echo') {
+                socket.write(`HTTP/1.1 200 OK\r\nContent-Type text/plain\r\nContent-Length: ${pathContents[1].length}\r\n\r\n${pathContents[1]}`);
+            }
             socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
         }
     })
