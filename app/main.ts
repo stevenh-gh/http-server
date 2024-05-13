@@ -7,9 +7,9 @@ const server: net.Server = net.createServer((socket: net.socket) => {
     // socket.end();
     socket.on('data', (buffer: net.Buffer | string) => {
         let request: string[] = buffer.toString().split(' ').map((str: string) => str.split('\r\n')).flat().filter((str: string) => str.length);
+        console.log(request);
         let method: string = request[0].toLowerCase();
         let path: string = request[1];
-        console.log(path)
         if (method === 'get') {
             if (path === '/') {
                 socket.write('HTTP/1.1 200 OK\r\n\r\n');
