@@ -45,7 +45,7 @@ const server: net.Server = net.createServer((socket: net.socket) => {
                     if (err) {
                         socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
                     } else {
-                        socket.write('HTTP/1.1 201 OK\r\n\r\n');
+                        socket.write('HTTP/1.1 201 Created\r\n\r\n');
                     }
                 })
             }
