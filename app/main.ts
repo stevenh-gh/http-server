@@ -107,7 +107,6 @@ const server: net.Server = net.createServer((socket: net.socket) => {
         // let path: string = request[1];
         const request: Request = new Request(buffer);
         let pathContents: string[] = request.getPathContents();
-        console.log('pppppp', pathContents)
         if (request.getMethod() === 'get') {
             if (request.getPath() === '/') {
                 socket.write('HTTP/1.1 200 OK\r\n\r\n');
@@ -140,7 +139,7 @@ const server: net.Server = net.createServer((socket: net.socket) => {
             if (pathContents[0] === 'files') {
                 let directory: string = process.argv[3];
                 let fileName: string = pathContents[1]
-                fs.writeFile(directory + fileName, request.getContent().slice(7).join(' '), (err: Error) => {
+                fs.writeFile(directory + fileName, request.getContent().join(' '), (err: Error) => {
                     if (err) {
                         socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
                     } else {
