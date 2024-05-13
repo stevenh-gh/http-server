@@ -37,13 +37,17 @@ const server: net.Server = net.createServer((socket: net.socket) => {
         }
         if (method === 'post') {
             let pathContents: string[] = path.split('/');
-            console.log(pathContents)
+            pathContents.shift();
             if (pathContents[0] === 'files') {
                 let directory: string = process.argv[3];
                 let fileName: string = pathContents[1]
                 fs.writeFile(directory + fileName, request.slice(7).join(' '), (err: Error) => {
+                    if (err) {
+                        socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
+                    } else {
+                        socket.write('HTTP/1.1 201 OK\r\n\r\n');
+                    }
                 })
-                socket.write('HTTP/1.1 201 OK\r\n\r\n');
             }
         }
     })
