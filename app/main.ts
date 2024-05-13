@@ -20,9 +20,9 @@ const server: net.Server = net.createServer((socket: net.socket) => {
                 let userAgent: string[] = request.at(-1).trim();
                 socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}`);
             } else if (pathContents[0] === 'files') {
-                let directory = process.argv[3];
+                let directory: string = process.argv[3];
                 const data = fs.readFileSync(directory, 'utf8');
-                console.log(data);
+                console.log(typeof data);
             } else {
                 socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
             }
