@@ -2,27 +2,80 @@ import fs from 'node:fs';
 import net from 'node:net';
 import process from 'node:process';
 
+interface Request {
+    getMethod(): string;
+    getPath(): string;
+    getPathContents(): string[];
+    getAcceptEncoding(): string | undefined;
+}
+
+class Request implements Request {
+    private request: string[];
+    private method: string;
+    private path: string;
+    private acceptEncoding: string | undefined;
+
+    public constructor(buffer: net.Buffer | string) {
+        this.request = buffer.toString().split(' ').map((str: string) => str.split('\r\n')).flat().filter((str: string) => str.length);
+        this.method = this.processMethod(this.request);
+        this.path = this.processPath(this.request);
+        this.acceptEncoding = this.processAcceptEncoding(this.request);
+    }
+
+    public getMethod(): string {
+        return this.method;
+    }
+
+    public getPath(): string {
+        return this.path;
+    }
+
+    public getPathContents(): string[] {
+        return this.path.split('/').slice(1);
+    }
+
+    public getAcceptEncoding(): string | undefined {
+        return this.acceptEncoding;
+    }
+
+    private processMethod(request: string[]): string {
+        return request[0].toLowerCase();
+    }
+
+    private processPath(request: string[]): string {
+        return request[1];
+    }
+
+    private processAcceptEncoding(request: string[]): string | undefined {
+        let encodingExist: string | undefined = request.find((e: string) => { e.toLowerCase() === 'accept-encoding:' })
+        let encodingIndex: number = request.findIndex((e: string) => e.toLowerCase() === 'accept-encoding:') + 1;
+        let encoding = request.at(encodingIndex);
+        if (encoding !== 'invalid-encoding') {
+            return encoding;
+        }
+        return undefined;
+    }
+
+}
+
 const server: net.Server = net.createServer((socket: net.socket) => {
     // socket.write('HTTP/1.1 200 OK\r\n\r\n');
     // socket.end();
     socket.on('data', (buffer: net.Buffer | string) => {
-        let request: string[] = buffer.toString().split(' ').map((str: string) => str.split('\r\n')).flat().filter((str: string) => str.length);
-        console.log(request);
-        let method: string = request[0].toLowerCase();
-        let path: string = request[1];
-        if (method === 'get') {
-            if (path === '/') {
+        // let request: string[] = buffer.toString().split(' ').map((str: string) => str.split('\r\n')).flat().filter((str: string) => str.length);
+        // console.log(request);
+        // let method: string = request[0].toLowerCase();
+        // let path: string = request[1];
+        const request: Request = new Request(buffer);
+        if (request.getMethod() === 'get') {
+            if (request.getPath() === '/') {
                 socket.write('HTTP/1.1 200 OK\r\n\r\n');
             } else {
-                let pathContents: string[] = path.split('/');
-                pathContents.shift();
+                let pathContents: string[] = request.getPathContents();
                 if (pathContents[0] === 'echo') {
-                    let acceptEncodingIndex: number = -1;
-                    if (request.find((str: string) => str.toLowerCase() === 'accept-encoding:')) {
-                        acceptEncodingIndex = request.findIndex((e: string) => e.toLowerCase() === 'accept-encoding:') + 1;
-                        if (request.at(acceptEncodingIndex).toLowerCase() !== 'invalid-encoding') {
-                            socket.write(`HTTP/1.1 200 OK\r\nContent-Encoding: ${request.at(acceptEncodingIndex)}\r\nContent-Type: text/plain\r\nContent-Length: ${pathContents[1].length}\r\n\r\n${pathContents[1]}`);
-                        }
+                    let encoding = request.getAcceptEncoding();
+                    if (encoding) {
+                        socket.write(`HTTP/1.1 200 OK\r\nContent-Encoding: ${encoding}\r\nContent-Type: text/plain\r\nContent-Length: ${pathContents[1].length}\r\n\r\n${pathContents[1]}`);
                     }
                     socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${pathContents[1].length}\r\n\r\n${pathContents[1]}`);
 
