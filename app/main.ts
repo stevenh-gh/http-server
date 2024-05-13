@@ -3,8 +3,10 @@ import * as net from 'net';
 const server: net.Server = net.createServer((socket: net.socket) => {
     // socket.write('HTTP/1.1 200 OK\r\n\r\n');
     // socket.end();
-    socket.on('data', (e) => {
-        console.log(e.toString('utf8'));
+    socket.on('data', (buffer: net.Buffer | string) => {
+        let request = buffer.toString().split(' ');
+        let path = request[1];
+        socket.write(path);
     })
 });
 
