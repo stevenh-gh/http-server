@@ -1,5 +1,7 @@
 import * as net from 'net';
 
+import process from 'node:process';
+
 const server: net.Server = net.createServer((socket: net.socket) => {
     // socket.write('HTTP/1.1 200 OK\r\n\r\n');
     // socket.end();
@@ -26,6 +28,7 @@ const server: net.Server = net.createServer((socket: net.socket) => {
 
 // You can use print statements as follows for debugging, they'll be visible when running tests.
 console.log("Logs from your program will appear here!");
+console.log(process)
 
 // Uncomment this to pass the first stage
 server.listen(4221, 'localhost', () => {
