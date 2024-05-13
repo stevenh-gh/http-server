@@ -37,7 +37,7 @@ const server: net.Server = net.createServer((socket: net.socket) => {
 
 // You can use print statements as follows for debugging, they'll be visible when running tests.
 console.log("Logs from your program will appear here!");
-console.log(process)
+console.log(fs)
 
 // Uncomment this to pass the first stage
 server.listen(4221, 'localhost', () => {
