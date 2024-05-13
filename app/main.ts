@@ -107,6 +107,7 @@ const server: net.Server = net.createServer((socket: net.socket) => {
         // let path: string = request[1];
         const request: Request = new Request(buffer);
         let pathContents: string[] = request.getPathContents();
+        console.log('pppppp', pathContents)
         if (request.getMethod() === 'get') {
             if (request.getPath() === '/') {
                 socket.write('HTTP/1.1 200 OK\r\n\r\n');
