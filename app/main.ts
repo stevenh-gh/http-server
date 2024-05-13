@@ -4,15 +4,10 @@ const server: net.Server = net.createServer((socket: net.socket) => {
     // socket.write('HTTP/1.1 200 OK\r\n\r\n');
     // socket.end();
     socket.on('data', (e) => {
-        console.log('rrrrrrrrrrrr', e);
+        console.log(e.toString('utf8'));
     })
 });
 
-server.on('data', (e) => {
-    e.forEach(b => {
-        console.log(b.toString())
-    })
-})
 // You can use print statements as follows for debugging, they'll be visible when running tests.
 console.log("Logs from your program will appear here!");
 
