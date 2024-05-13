@@ -6,7 +6,7 @@ const server: net.Server = net.createServer((socket: net.socket) => {
     // socket.write('HTTP/1.1 200 OK\r\n\r\n');
     // socket.end();
     socket.on('data', (buffer: net.Buffer | string) => {
-        let request: string[] = buffer.toString().split(' ').split('\r\n');
+        let request: string[] = buffer.toString().split(' ');
         console.log(request)
         let method: string = request[0].toLowerCase();
         let path: string = request[1];
