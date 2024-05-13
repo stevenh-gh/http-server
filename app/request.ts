@@ -54,7 +54,6 @@ class Request implements RequestType {
 	}
 
 	public getContent(): string[] {
-		console.log('immm in contentsss', this.content)
 		return this.content;
 	}
 
