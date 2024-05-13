@@ -6,7 +6,7 @@ const server: net.Server = net.createServer((socket: net.socket) => {
 });
 
 server.on('data', (e) => {
-    console.log(e)
+    console.log('ttttttttttttttttt', e)
 })
 // You can use print statements as follows for debugging, they'll be visible when running tests.
 console.log("Logs from your program will appear here!");
