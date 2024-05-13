@@ -1,8 +1,6 @@
 import * as net from 'net';
 import * as  process from 'process';
 
-import fs from 'fs';
-
 const server: net.Server = net.createServer((socket: net.socket) => {
     // socket.write('HTTP/1.1 200 OK\r\n\r\n');
     // socket.end();
@@ -21,8 +19,10 @@ const server: net.Server = net.createServer((socket: net.socket) => {
                 socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}`);
             } else if (pathContents[0] === 'files') {
                 let directory: string = process.argv[3];
-                const data = fs.readFileSync(directory, 'utf8');
-                console.log(typeof data);
+                const file: string = (async () => {
+                    return await Bun.file(directory).text();
+                })();
+                console.log(file);
             } else {
                 socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
             }
