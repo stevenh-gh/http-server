@@ -6,7 +6,11 @@ const server: net.Server = net.createServer((socket: net.socket) => {
     socket.on('data', (buffer: net.Buffer | string) => {
         let request = buffer.toString().split(' ');
         let path = request[1];
-        socket.write(path);
+        if (path === '/') {
+            socket.write('HTTP/1.1 200 OK\r\n\r\n');
+        } else {
+            socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
+        }
     })
 });
 
