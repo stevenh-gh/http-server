@@ -1,7 +1,7 @@
 import * as net from 'net';
 
 const server: net.Server = net.createServer((socket: net.socket) => {
-    socket.write('HTTP/1.1 200 OK \r\n\r\n');
+    socket.write('HTTP/1.1\n200\nOK\n\r\n\r\n');
     socket.end();
 });
 
