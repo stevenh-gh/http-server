@@ -21,14 +21,8 @@ const server: net.Server = net.createServer((socket: net.socket) => {
                 socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}`);
             } else if (pathContents[0] === 'files') {
                 let directory = process.argv[3];
-                console.log('directoryyyyyyyyyyyyyyyy', directory)
-                fs.readFile(directory, 'utf8', (err, data) => {
-                    console.log(typeof err, typeof data)
-                    if (err) {
-                        socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
-                    }
-                    socket.write(`HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${data.length}\r\n\r\n${data}`);
-                })
+                const data = fs.readFileSync(directory, 'utf8');
+                console.log(data);
             } else {
                 socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
             }
