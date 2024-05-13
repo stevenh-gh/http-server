@@ -1,7 +1,6 @@
+import * as fs from 'fs';
 import * as net from 'net';
-
-import fs from 'node:fs';
-import process from 'node:process';
+import * as  process from 'process';
 
 const server: net.Server = net.createServer((socket: net.socket) => {
     // socket.write('HTTP/1.1 200 OK\r\n\r\n');
