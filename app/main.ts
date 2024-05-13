@@ -1,8 +1,10 @@
 import * as net from 'net';
 
-const server: net.Server = net.createServer((socket: net.socket, e) => {
-    console.log('eeeeee', e)
-    socket.write('HTTP/1.1 200 OK\r\n\r\n');
+const server: net.Server = net.createServer((socket: net.socket) => {
+    // socket.write('HTTP/1.1 200 OK\r\n\r\n');
+    socket.on('listening', (e) => {
+        console.log(e)
+    })
     socket.end();
 });
 
