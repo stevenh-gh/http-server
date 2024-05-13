@@ -19,10 +19,12 @@ const server: net.Server = net.createServer((socket: net.socket) => {
                 if (pathContents[0] === 'echo') {
                     let acceptEncodingIndex: number = -1;
                     if (request.find((str: string) => str.toLowerCase() === 'accept-encoding')) {
+                        console.log('iiiiiiiiim in')
                         acceptEncodingIndex = request.findIndex((e: string) => e.toLowerCase() === 'accept-encoding') + 1;
                         socket.write(`HTTP/1.1 200 OK\r\nAccept-Encoding: ${request.at(acceptEncodingIndex)}\r\nContent-Type: text/plain\r\nContent-Length: ${pathContents[1].length}\r\n\r\n${pathContents[1]}`);
+                    } else {
+                        socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${pathContents[1].length}\r\n\r\n${pathContents[1]}`);
                     }
-                    socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${pathContents[1].length}\r\n\r\n${pathContents[1]}`);
                 } else if (pathContents[0] === 'user-agent') {
                     let userAgent: string[] = request.at(-1).trim();
                     socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}`);
