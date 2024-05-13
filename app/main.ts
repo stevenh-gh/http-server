@@ -6,8 +6,7 @@ const server: net.Server = net.createServer((socket: net.socket) => {
     // socket.write('HTTP/1.1 200 OK\r\n\r\n');
     // socket.end();
     socket.on('data', (buffer: net.Buffer | string) => {
-        let request: string[] = buffer.toString().split(' ').map(str => str.split('\r\n')).flat().filter(str => str.length);
-        console.log(request)
+        let request: string[] = buffer.toString().split(' ').map((str: string) => str.split('\r\n')).flat().filter((str: string) => str.length);
         let method: string = request[0].toLowerCase();
         let path: string = request[1];
         console.log(path)
@@ -41,7 +40,13 @@ const server: net.Server = net.createServer((socket: net.socket) => {
             if (pathContents[0] === 'files') {
                 let directory: string = process.argv[3];
                 let fileName: string = pathContents[1]
-                // fs.writeFile(directory+fileName, x)
+                fs.writeFile(directory + fileName, request.slice(7).join(' '), (err: Error) => {
+                    if (err) {
+                        socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
+                    } else {
+                        socket.write('HTTP/1.1 201 OK\r\n\r\n');
+                    }
+                })
             }
         }
     })
