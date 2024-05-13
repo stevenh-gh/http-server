@@ -21,6 +21,7 @@ const server: net.Server = net.createServer((socket: net.socket) => {
                 socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}`);
             } else if (pathContents[0] === 'files') {
                 let directory = process.argv[3];
+                console.log('directoryyyyyyyyyyyyyyyy', directory)
                 fs.readFile(directory, 'utf8', (err, data) => {
                     console.log(typeof err, typeof data)
                     if (err) {
@@ -37,7 +38,6 @@ const server: net.Server = net.createServer((socket: net.socket) => {
 
 // You can use print statements as follows for debugging, they'll be visible when running tests.
 console.log("Logs from your program will appear here!");
-console.log(fs)
 
 // Uncomment this to pass the first stage
 server.listen(4221, 'localhost', () => {
