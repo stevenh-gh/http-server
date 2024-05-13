@@ -9,6 +9,7 @@ const server: net.Server = net.createServer((socket: net.socket) => {
         if (path === '/') {
             socket.write('HTTP/1.1 200 OK\r\n\r\n');
         } else {
+            console.log(path.split('/'))
             socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
         }
     })
