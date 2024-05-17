@@ -4,13 +4,7 @@ import net from 'node:net';
 import process from 'node:process';
 
 const server: net.Server = net.createServer((socket: net.socket) => {
-    // socket.write('HTTP/1.1 200 OK\r\n\r\n');
-    // socket.end();
     socket.on('data', (buffer: net.Buffer | string) => {
-        // let request: string[] = buffer.toString().split(' ').map((str: string) => str.split('\r\n')).flat().filter((str: string) => str.length);
-        // console.log(request);
-        // let method: string = request[0].toLowerCase();
-        // let path: string = request[1];
         const request: Request = new Request(buffer);
         let pathContents: string[] = request.getPathContents();
         if (request.getMethod() === 'get') {
