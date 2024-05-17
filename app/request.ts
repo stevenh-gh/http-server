@@ -69,9 +69,11 @@ class Request implements RequestType {
 	private processAcceptEncoding(request: string[]): string | undefined {
 		let encodingIndex: number = request.findIndex((e: string) => e.toLowerCase() === 'accept-encoding:') + 1;
 		if (encodingIndex !== -1) {
-			let encoding = request.at(encodingIndex);
-			if (encoding !== 'invalid-encoding') {
-				return encoding;
+			let encoding = request.slice(encodingIndex);
+			if (!encoding.includes('invalid-encoding')) {
+				if (encoding.includes('gzip')) {
+					return 'gzip';
+				}
 			}
 		}
 		return undefined;
