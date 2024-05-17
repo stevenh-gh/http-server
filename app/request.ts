@@ -70,7 +70,7 @@ class Request implements RequestType {
 		let encodingIndex: number = request.findIndex((e: string) => e.toLowerCase() === 'accept-encoding:') + 1;
 		if (encodingIndex !== -1) {
 			let encoding = request.slice(encodingIndex);
-			console.log('encodinggggg', encoding')
+			console.log('encodinggggg', encoding)
 			if (!encoding.includes('invalid-encoding')) {
 				if (encoding.includes('gzip')) {
 					return 'gzip';
