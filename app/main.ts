@@ -14,6 +14,7 @@ const server: net.Server = net.createServer((socket: net.socket) => {
                 if (pathContents[0] === 'echo') {
                     let encoding = request.getAcceptEncoding();
                     if (encoding) {
+                        console.log('imheree')
                         socket.write(`HTTP/1.1 200 OK\r\nContent-Encoding: ${encoding}\r\nContent-Type: text/plain\r\nContent-Length: ${pathContents[1].length}\r\n\r\n${pathContents[1]}`);
                     }
                     socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${pathContents[1].length}\r\n\r\n${pathContents[1]}`);
