@@ -4,7 +4,7 @@ import net from 'node:net';
 import process from 'node:process';
 import zlib from 'node:zlib';
 
-let test = zlib.gzip('foo');
+let test = zlib.gzipSync('foo');
 console.log(test)
 
 const server: net.Server = net.createServer((socket: net.socket) => {
