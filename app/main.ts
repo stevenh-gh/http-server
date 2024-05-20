@@ -5,7 +5,7 @@ import process from 'node:process';
 import zlib from 'node:zlib';
 
 let test = zlib.gzipSync('foo');
-console.log('zlib test', test.toString('base64'))
+console.log('zlib test', test.toString('hex'))
 
 const server: net.Server = net.createServer((socket: net.socket) => {
     socket.on('data', (buffer: net.Buffer | string) => {
