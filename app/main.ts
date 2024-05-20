@@ -19,8 +19,8 @@ const server: net.Server = net.createServer((socket: net.socket) => {
                     let encoding = request.getAcceptEncoding();
                     console.log(encoding)
                     if (encoding) {
-                        let gzip = zlib.gzipSync(pathContents[1]);
-                        console.log(typeof gzip);
+                        let compress = zlib.gzipSync(pathContents[1]);
+                        console.log(typeof compress);
                         // console.log(`HTTP/1.1 200 OK\r\nContent-Encoding: ${encoding}\r\nContent-Type: text/plain\r\nContent-Length: ${compress.length}\r\n\r\n\r\n${compress}`);
                         socket.write(`HTTP/1.1 200 OK\r\nContent-Encoding: ${encoding}\r\nContent-Type: text/plain\r\nContent-Length: ${compress.length}\r\n\r\n${compress}`);
                     }
