@@ -21,10 +21,8 @@ class Request implements RequestType {
 
 	public constructor(buffer: net.Buffer | string) {
 		this.request = buffer.toString().split(' ').map((str: string) => str.split('\r\n')).flat().filter((str: string) => str.length);
-		console.log(this.request);
 		this.method = this.processMethod(this.request);
 		this.path = this.processPath(this.request);
-		console.log('pathhh', this.path)
 		this.acceptEncoding = this.processAcceptEncoding(this.request);
 		this.userAgent = this.processUserAgent(this.request);
 		this.processContent(this.request);

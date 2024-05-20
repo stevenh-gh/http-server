@@ -17,6 +17,7 @@ const server: net.Server = net.createServer((socket: net.socket) => {
             } else {
                 if (pathContents[0] === 'echo') {
                     let encoding = request.getAcceptEncoding();
+                    console.log(pathContents)
                     console.log(encoding)
                     if (encoding) {
                         socket.write(`HTTP/1.1 200 OK\r\nContent-Encoding: ${encoding}\r\nContent-Type: text/plain\r\nContent-Length: ${pathContents[1].length}\r\n\r\n${pathContents[1]}`);
